@@ -1,11 +1,23 @@
 # PSWordPress
 A PowerShell Module for working with WordPress via the REST API
 
-This module successfully handles the oAuth login process to connect a user to retrieve the Authentication Token necessary to work with a WordPress blog using the WordPress REST Api.
+This module proviedes two cmdlets which handle the WordPress implementation of oAuth.
 
-Eventually, I will be adding cmdlets to pull down Blog Stats, make a new post, and things like that.  Currently only login is handled.
+When finished, the user will have a permanent Authentication token which can be used against any of the endpoints listed in the [WordPress Rest API Documentation](https://developer.wordpress.com/docs/api/).  
 
-# How to use
+Initial tests are good, and I will be adding cmdlets to pull down Blog Stats, make a new post, and things like that.  Currently only login is handled.
+
+###Planned cmdlets
+
+Name  | Planned Version
+------------- | -------------
+Get-WordPressStats | v0.1
+New-WordPressPage | v0.2
+New-WordPressPost | v0.2
+New-WordPressUser | v0.?
+
+
+### How to use
 
 * Create a [project on WordPress](https://developer.wordpress.com/apps/) (this works for self-hosted or WordPress.com blogs.  For Self-hosted, you need to enablee the JetPack for WordPress Add-in.)
 * Clone this Repo
@@ -31,5 +43,5 @@ Get-WordPressAuthToken -ClientID [your app id] -BlogUrl [the redirect URL you sp
 Test-WordPressToken -ClientID [your ID] -AuthToken [the token you received from the previous step]
 ```
 
-#Design Decisions
+###Design Decisions open for discussion
 Currently, I'm exposing the oAuth process to the user.  I haven't decided yet if this is a good idea, as it might be easier to abstract it all away behind a Connect-WordPress account type cmdlet, similar to the way that Office 365 handles it's authentication.
