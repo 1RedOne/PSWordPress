@@ -1,4 +1,4 @@
-# PSWordPress
+# PSWordPress v0.0.5
 A PowerShell Module for working with WordPress via the REST API
 
 This module proviedes two cmdlets which handle the WordPress implementation of oAuth.
@@ -39,3 +39,14 @@ Test-WordPressToken -ClientID [your ID] -AuthToken [automatically retrieved if e
 
 ###Design Decisions open for discussion
 We decided to move forward emulating other persistant cmdlets, like Azure and o365.  Now the user simply uses Connect-WordPressAccount once, and their key will persist in safe storage.
+
+###Change log
+
+v0.0.5 Added Connect-WordPressAccount
+
+    Decided that having the user do a two stage auth was cludgey, so I made
+     Get-WordPressAuthCode and Get-WordPressAuthToken into private functions.
+    -Also moved the oAuth window into it's own private function.
+    -Added private secure storage of an oAuth Access Token, so that the user
+     need not register every time.  The token will be automatically detected
+     when the cmdlets are subsequently reloaded.
