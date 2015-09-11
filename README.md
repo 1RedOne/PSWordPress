@@ -25,23 +25,17 @@ New-WordPressUser | v0.?
 ```PowerShell
 Import-Module PSWordPress
 ```
-* Authenticate to WordPress using oAuth by running the cmdlet, this will return $AuthCode
+* Use Connect-WordPressAccount to authenticate, and retrieve an Access Token.  
 ```PowerShell
-Get-WordPressAuthCode -ClientID [your app id] -BlogUrl [the redirect URL you specified]
->Returns $Global:AuthCode, needed for the next step 
+Connect-WordPressAccount -ClientID [your app id] -BlogUrl [the redirect URL you specified]
+   -ClientSecret [the secret you received when you made your project]
+>Returns $Global:AccessToken, automatically passed to all subsequnet cmdlets
 ```
-* Use the AccessCode you're given to request a permanent Authentication Token
+* The accessToken is safely stored using Windows API storage, in the users own roaming app data.  Subsequent cmdlets are aware of this storage location and will retrieve the key for you.
+* You can test your Credential using Test-WordPressToken
 ```PowerShell
-Get-WordPressAuthToken -ClientID [your app id] -BlogUrl [the redirect URL you specified] `
-  -ClientSecret [the secret you received when you made your project] `
-  -AuthCode $AuthCode
-  
->Returns $Global:AuthToken, keep this safe, this is your oAuth Token
-```
-* Test your Credential using Test-WordPressToken
-```PowerShell
-Test-WordPressToken -ClientID [your ID] -AuthToken [the token you received from the previous step]
+Test-WordPressToken -ClientID [your ID] -AuthToken [automatically retrieved if exists]
 ```
 
 ###Design Decisions open for discussion
-Currently, I'm exposing the oAuth process to the user.  I haven't decided yet if this is a good idea, as it might be easier to abstract it all away behind a Connect-WordPress account type cmdlet, similar to the way that Office 365 handles it's authentication.
+We decided to move forward emulating other persistant cmdlets, like Azure and o365.  Now the user simply uses Connect-WordPressAccount once, and their key will persist in safe storage.
