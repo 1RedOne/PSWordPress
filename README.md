@@ -2,7 +2,7 @@
 A PowerShell Module for working with WordPress via the REST API
 
 This module makes it easy to connect to your WordPress account if you're using JetPack for self-hosted WordPress accounts, or if you're using WordPress.com hosting.  
-
+   _
 Currently, you can use Connect-WordPressAccount to connect to your user account, and then use additional cmdlets to get your sites, your site statistics and more.
 
 ####Exposed Cmdlets
