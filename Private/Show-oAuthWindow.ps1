@@ -1,8 +1,4 @@
-﻿Function Get-WordPressAuthCode{
-param($ClientID,$blogURL)
-    $url = "https://public-api.wordpress.com/oauth2/authorize?client_id=$clientID&redirect_uri=$blogURL&response_type=code"
-
-    #region mini window, made by (Insert credits here)
+﻿   #region mini window, made by (Insert credits here)
     Function Show-OAuthWindow {
     Add-Type -AssemblyName System.Windows.Forms
  
@@ -21,12 +17,3 @@ param($ClientID,$blogURL)
     #endregion
 
     #login to get an access code 
-    Show-OAuthWindow
-
-    #After this, there should be a variable called $uri, which has our code!!!!!!!!!!!
-    #(?<=code=)(.*)(?=&)
-    $regex = '(?<=code=)(.*)(?=&)'
-    $global:authCode  = ($uri | Select-string -pattern $regex).Matches[0].Value
-    Write-output "Received an authCode, $authcode"
-}
-#Next, get an access token by presenting the code

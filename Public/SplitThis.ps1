@@ -4,7 +4,7 @@ $authURL = 'https://public-api.wordpress.com/oauth2/authorize'
 
 #make a token call
 #look for your API provider's page ending in /token
-
+##
 $clientID = '37880'
 #need these from WPCreds.txt 
 $blogURL  = 'http://www.foxdeploy.com'
