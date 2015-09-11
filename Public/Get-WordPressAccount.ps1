@@ -5,6 +5,7 @@ if ($Insights){
     Invoke-RestMethod https://public-api.wordpress.com/rest/v1.1/insights -Method Get -Headers @{"Authorization" = "Bearer $accessToken"}
     }
 
-Invoke-RestMethod https://public-api.wordpress.com/rest/v1.1/me/ -Method Get -Headers @{"Authorization" = "Bearer $accessToken"}
+try {Invoke-RestMethod https://public-api.wordpress.com/rest/v1.1/me/ -Method Get -Headers @{"Authorization" = "Bearer $accessToken"} -ErrorAction Stop}
+catch{throw "Check Credentials, error 400"}
 
 }
