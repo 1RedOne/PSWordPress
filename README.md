@@ -48,6 +48,10 @@ We decided to move forward emulating other persistant cmdlets, like Azure and o3
 ###Change log
 v0.1 Added Get-WordPressStats
 
+    Get-WordPressStats is now working, which will return the stats for any 
+      site ID or domain you provide (assuming you have authorization)
+    Added Get-WordPressSite, to resolve the current blog, and cleaned up Get-WordPressAccount.
+
 v0.0.5 Added Connect-WordPressAccount
 
     Decided that having the user do a two stage auth was cludgey, so I made
