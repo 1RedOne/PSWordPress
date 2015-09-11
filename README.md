@@ -1,17 +1,22 @@
-# PSWordPress v0.0.5
+# PSWordPress v0.1
 A PowerShell Module for working with WordPress via the REST API
 
-This module proviedes two cmdlets which handle the WordPress implementation of oAuth.
+This module makes it easy to connect to your WordPress account if you're using JetPack for self-hosted WordPress accounts, or if you're using WordPress.com hosting.  
 
-When finished, the user will have a permanent Authentication token which can be used against any of the endpoints listed in the [WordPress Rest API Documentation](https://developer.wordpress.com/docs/api/).  
+Currently, you can use Connect-WordPressAccount to connect to your user account, and then use additional cmdlets to get your sites, your site statistics and more.
 
-Initial tests are good, and I will be adding cmdlets to pull down Blog Stats, make a new post, and things like that.  Currently only login is handled.
+####Exposed Cmdlets
 
-###Planned cmdlets
+* Connect-WordPressAccount
+* Get-WordPressAccount
+* Get-WordPressSite
+* Get-WordPressStats
 
-Name  | Planned Version
-------------- | -------------
-Get-WordPressStats | v0.1
+####Planned cmdlets
+
+Name  | Planned Version | Delivered?
+------------- | ------------- | --- 
+Get-WordPressStats | v0.1 | YES!
 New-WordPressPage | v0.2
 New-WordPressPost | v0.2
 New-WordPressUser | v0.?
@@ -41,6 +46,7 @@ Test-WordPressToken -ClientID [your ID] -AuthToken [automatically retrieved if e
 We decided to move forward emulating other persistant cmdlets, like Azure and o365.  Now the user simply uses Connect-WordPressAccount once, and their key will persist in safe storage.
 
 ###Change log
+v0.1 Added Get-WordPressStats
 
 v0.0.5 Added Connect-WordPressAccount
 
