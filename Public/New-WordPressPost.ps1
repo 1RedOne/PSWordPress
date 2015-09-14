@@ -38,11 +38,15 @@ Function New-WordPressPost {
 param(
     [Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true,
                    Position=0)]
-                   [Alias("domainName")] $ID,
+                   [Alias("domainName")] $ID,$postTitle,$content,$tags,$categories,
                    $accessToken=$Global:accessToken)
 
 #Need some params
+
+# /sites/$site/posts/new
+
 <#
+
 SAMPLE
 curl \
  -H 'authorization: Bearer YOUR_API_TOKEN' \
@@ -203,26 +207,18 @@ curl \
 -H 'Authorization: BEARER your-token' \
 'https://public-api.wordpress.com/rest/v1/sites/123/posts/new' 
 
-metadata
-(array) Array of metadata objects containing the following properties: `key` (metadata key), `id` (meta ID), `previous_value` (if set, the action will only occur for the provided previous value), `value` (the new value to set the meta to), `operation` (the operation to perform: `update` or `add`; defaults to `update`). All unprotected meta keys are available by default for read requests. Both unprotected and protected meta keys are avaiable for authenticated requests with proper capabilities. Protected meta keys can be made available with the rest_api_allowed_public_metadata filter. 
-
-discussion
-(object) A hash containing one or more of the following boolean values, which default to the blog's discussion preferences: `comments_open`, `pings_open` 
-
-likes_enabled
-(bool) Should the post be open to likes? Defaults to the blog's preference. 
-
-sharing_enabled
-(bool) Should sharing buttons show on this post? Defaults to true. 
-
-menu_order
-(int) (Pages Only) the order pages should appear in. Use 0 to maintain alphabetical order. 
-
-page_template
-(string) (Pages Only) The page template this page should use. 
+ -Body @{title=$postTitle; content=$content; tags='tests'; categories='api'} -ContentType "application/x-www-form-urlencoded" -ErrorAction STOP
+     }
 
 #>
 
-#Invoke-RestMethod https://public-api.wordpress.com/rest/v1.1/sites/$ID/posts/new -Method Post -Headers @{"Authorization" = "Bearer $accessToken"}  | Select-object -ExpandProperty Stats |Select-Object Views*,Visit*
 
+
+    try { 
+    $result = Invoke-RestMethod https://public-api.wordpress.com/rest/v1.1/sites/$ID/posts/new  `
+                -Method Post -Headers @{"Authorization" = "Bearer $accessToken"} `
+                -Body @{title=$postTitle; content=$content; tags='tests'; categories='api'} `
+                    -ContentType "application/x-www-form-urlencoded" -ErrorAction STOP }
+    catch{write-warning "Shit broke"}
+        
 }

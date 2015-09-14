@@ -38,7 +38,7 @@ Foreach ($import in $PrivateFunctions)
 
 $configDir = "$Env:AppData\WindowsPowerShell\Modules\PSWordPress\0.1\Config.ps1xml"
 if (-not (Test-Path $configDir) -or $force){
-        "`$force detected"
+        if ($force){"`$force detected"}
         New-item -Force -Path "$configDir" -ItemType File
     
         Get-WordPressAuthCode -ClientID $ClientID -blogURL $blogURL
