@@ -8,7 +8,7 @@
             $Global:uri = $web.Url.AbsoluteUri
             if ($Global:Uri -match "error=[^&]*|code=[^&]*") {$form.Close() }
     }
- 
+    $web.ScriptErrorsSuppressed = $true
     $web.Add_DocumentCompleted($DocComp)
     $form.Controls.Add($web)
     $form.Add_Shown({$form.Activate()})

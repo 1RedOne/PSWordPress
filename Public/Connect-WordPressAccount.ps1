@@ -17,7 +17,23 @@
     If you need to renew your API key (roughly once a month), then rerun the cmdlet with -Force
 #>
 Function Connect-WordPressAccount {
+[CmdletBinding()]
 param($ClientID,$blogURL,$clientSecret,[Switch]$force)
+
+#load private functions
+$PrivateFunctions = get-childitem "$((Get-Module PSWordPress).ModuleBase)\Private" 
+
+Foreach ($import in $PrivateFunctions)
+    {
+        Try
+        {
+            . $import.fullname
+        }
+        Catch
+        {
+            Write-Error -Message "Failed to import function $($import.fullname): $_"
+        }
+    }
 
 
 $configDir = "$Env:AppData\WindowsPowerShell\Modules\PSWordPress\0.1\Config.ps1xml"
@@ -34,7 +50,14 @@ if (-not (Test-Path $configDir) -or $force){
         $password | ConvertFrom-SecureString | Export-Clixml $configDir -Force
     }
     else{
-        $password = Import-Clixml -Path $configDir | ConvertTo-SecureString
+        try {
+             $password = Import-Clixml -Path $configDir -ErrorAction STOP | ConvertTo-SecureString
+
+             }
+      catch {
+        Write-Warning "Corrupt Password file found, rerun with -Force to fix this"
+        BREAK
+       }
         $Ptr = [System.Runtime.InteropServices.Marshal]::SecureStringToCoTaskMemUnicode($password)
         $result = [System.Runtime.InteropServices.Marshal]::PtrToStringUni($Ptr)
         [System.Runtime.InteropServices.Marshal]::ZeroFreeCoTaskMemUnicode($Ptr)
