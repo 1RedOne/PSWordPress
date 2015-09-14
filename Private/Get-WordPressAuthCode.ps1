@@ -1,6 +1,6 @@
 ﻿Function Get-WordPressAuthCode{
 param($ClientID,$blogURL)
-    $url = "https://public-api.wordpress.com/oauth2/authorize?client_id=$clientID&redirect_uri=$blogURL&response_type=code"
+    $url = "https://public-api.wordpress.com/oauth2/authorize?client_id=$clientID&redirect_uri=$blogURL&scope=global&response_type=code"
     
     If($ClientID -eq $null){
         Write-warning "Must provide the `-ClientID of your WordPress App to display a login Window"
