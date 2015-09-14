@@ -4,17 +4,19 @@
 .DESCRIPTION
    If you're using WordPress.com hosting, or have JetPack for WordPress enabled on your self-hosted site, you can use this cmdlet to get the visitors to your blog
 .EXAMPLE
-   PS C:\git\WordPress> Get-WordPressStats -domainName FoxDeploy.com
+   PS C:\git\WordPress> $post = @{
+ postTitle ="Published via PowerShell" 
+ content="This is some a great post" 
+ tags= "API" 
+ categories= "Scripting"
+}
 
+Get-WordPressSite -domainName "tenminutesnews.com" | 
+New-WordPressPost @post
 
-views_today          : 507
-views_yesterday      : 953
-views_best_day       : 2015-08-03
-views_best_day_total : 4618
-views                : 220094
-visitors_today       : 276
-visitors_yesterday   : 594
-visitors             : 136381
+>Post Successful!
+
+In this example, we make the post by storing the many parameters in a variable.  This technique is known as splatting.
 .EXAMPLE
 Get-WordPressSite -domainName FoxDeploy.com | Get-WordPressStats
 
@@ -38,7 +40,12 @@ Function New-WordPressPost {
 param(
     [Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true,
                    Position=0)]
-                   [Alias("domainName")] $ID,$postTitle,$content,$tags,$categories,
+                   [Alias("domainName")] $ID,
+                   $postTitle,
+                   $content,
+                   $tags,
+                   $categories,
+                   [switch]$view,
                    $accessToken=$Global:accessToken)
 
 #Need some params
@@ -133,49 +140,6 @@ format
 (string) 
 default:
 
-(default) Use default post format
-
-standard:
-
-Standard
-
-aside:
-
-Aside
-
-chat:
-
-Chat
-
-gallery:
-
-Gallery
-
-link:
-
-Link
-
-image:
-
-Image
-
-quote:
-
-Quote
-
-status:
-
-Status
-
-video:
-
-Video
-
-audio:
-
-Audio
- 
-
 featured_image
 (string) The post ID of an existing attachment to set as the featured image. Pass an empty string to delete the existing image. 
 
@@ -187,8 +151,6 @@ curl \
 --form 'title=Image Post' \
 --form 'media[0]=@/path/to/file.jpg' \
 --form 'media_attrs[0][caption]=My Great Photo' \
--H 'Authorization: BEARER your-token' \
-'https://public-api.wordpress.com/rest/v1/sites/123/posts/new' 
 
 media_urls
 (array) An array of URLs for images to attach to a post. Sideloads the media in for a post. Errors produced by media sideloading, if any, will be in `media_errors` in the response. 
@@ -207,9 +169,6 @@ curl \
 -H 'Authorization: BEARER your-token' \
 'https://public-api.wordpress.com/rest/v1/sites/123/posts/new' 
 
- -Body @{title=$postTitle; content=$content; tags='tests'; categories='api'} -ContentType "application/x-www-form-urlencoded" -ErrorAction STOP
-     }
-
 #>
 
 
@@ -220,5 +179,24 @@ curl \
                 -Body @{title=$postTitle; content=$content; tags='tests'; categories='api'} `
                     -ContentType "application/x-www-form-urlencoded" -ErrorAction STOP }
     catch{write-warning "Shit broke"}
+    $result
+    if (($result.status)-eq 'publish'){Write-Output "Post Successful!"}
+
+    if ($view){start $result.short_URL}
+    Write-Debug "Test result"
         
 }
+<# working out image upload here
+Invoke-RestMethod https://public-api.wordpress.com/rest/v1.1/sites/$ID/media/new  `
+                -Method Post -Headers @{"Authorization" = "Bearer $accessToken"} `
+                -Body @{title=$postTitle; content=$content; tags='tests'; categories='api';'media[]'=$(T:\Appa.png)} `
+                    -ErrorAction STOP -contentType "multipart/form-data"
+
+--form 'title=Image Post' \
+--form 'media[0]=@/path/to/file.jpg' \
+--form 'media_attrs[0][caption]=My Great Photo' \
+
+'media[]=@/path/to/file1.jpg' \
+--form 'media_urls[]=http://exapmple.com/file2.jpg' \
+
+#>

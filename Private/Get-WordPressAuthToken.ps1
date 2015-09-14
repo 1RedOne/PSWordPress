@@ -14,7 +14,8 @@ param($ClientID,$blogURL,$clientSecret,$authCode)
     
     Write-Debug 'go through the results of $result, looking for our token'
     if ($result.access_token){
-        Write-Output "received an access_token!!"
+        Write-Output "Updated Authorization Token"
+        $result
         $global:accessToken = $result.access_token}
     
 }

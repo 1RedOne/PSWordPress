@@ -33,12 +33,14 @@ param([Parameter(ValueFromPipelineByPropertyName=$true,
 
 
     if ($domainName){
-    $sites = Invoke-RestMethod https://public-api.wordpress.com/rest/v1.1/sites/$domainName -Method Get -Headers @{"Authorization" = "Bearer $accessToken"} | select ID,name,Description,URL,post_count,subscribers_count,@{Name='DomainName';Exp={$domainName}} -ExcludeProperty options
-    }
+            try {$sites = Invoke-RestMethod https://public-api.wordpress.com/rest/v1.1/sites/$domainName -Method Get -Headers @{"Authorization" = "Bearer $accessToken"} -ErrorAction Stop | 
+                select ID,name,Description,URL,post_count,subscribers_count,@{Name='DomainName';Exp={$domainName}} -ExcludeProperty options }
+          catch {Write-Warning "Auth Token issue`n`tDid you grant permission to all of your sites?`n`tMake sure that Scope=Global is specified in your token request URL`n`tTry to refresh your token with Connect-WordPressAccount -Force"}
+        }
     else{
                     # https://public-api.wordpress.com/rest/v1.1/me/sites
-    $sites = Invoke-RestMethod "https://public-api.wordpress.com/rest/v1.1/me/sites" -Headers @{"Authorization" = "Bearer $accessToken"}  #| 
-            #select ID,name,Description,URL,post_count,subscribers_count,@{Name='DomainName';Exp={$domainName}} -ExcludeProperty options
+            try {$sites = Invoke-RestMethod "https://public-api.wordpress.com/rest/v1.1/me/sites" -Headers @{"Authorization" = "Bearer $accessToken"} -ErrorAction Stop}
+          catch {Write-Warning "Auth Token issue`n`tDid you grant permission to all of your sites?`n`tMake sure that Scope=Global is specified in your token request URL`n`tTry to refresh your token with Connect-WordPressAccount -Force"}
     }
 
     ForEach ($site in $sites.sites){
