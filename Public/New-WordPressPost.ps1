@@ -186,7 +186,7 @@ curl \
     Write-Debug "Test result"
         
 }
-<# working out image upload here
+< # working out image upload here
 Invoke-RestMethod https://public-api.wordpress.com/rest/v1.1/sites/$ID/media/new  `
                 -Method Post -Headers @{"Authorization" = "Bearer $accessToken"} `
                 -Body @{title=$postTitle; content=$content; tags='tests'; categories='api';'media[]'=$(T:\Appa.png)} `
