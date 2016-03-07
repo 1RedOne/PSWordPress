@@ -17,7 +17,7 @@ param($clientID=$global:clientID,$accessToken=$global:accessToken)
         Write-Warning "Double check that you're providing a Token, and not an access code";$err=$true}
     finally {
         if (-not($err)){
-            Write-output "Token is valid, for the following user"
+            Write-Output "Token is valid, for the following user"
             $result
             }
     }
