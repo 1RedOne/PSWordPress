@@ -1,4 +1,5 @@
-﻿<#
+﻿Function Get-WordPressPost {
+<#
 .Synopsis
    Returns a list of all Posts, useful to send to other cmdlets
 .DESCRIPTION
@@ -17,9 +18,7 @@ Found 135 posts
 Get basic information about the posts on your site, including comment activity
 .EXAMPLE
    Another example of how to use this cmdlet
-#>
-Function Get-WordPressPost {
-[CmdletBinding()]
+#>[CmdletBinding()]
 param(
 [Parameter(Mandatory=$true,
            ValueFromPipelineByPropertyName=$true,
