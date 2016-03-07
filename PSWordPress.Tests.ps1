@@ -1,8 +1,8 @@
 $Here = Split-Path -Parent $MyInvocation.MyCommand.Path
 $RootLocation = Split-Path -Parent $here
 
-
-#$Scripts = Get-ChildItem "$here\Public\" -Filter '*.ps1' | Where-Object {$_.name -NotMatch "Tests.ps1"}
+# Commenting out Scripts as there is little need as we only care about the public functions having Comment Based Help
+#$Scripts = Get-ChildItem "$here\Public\" -Recurse -Filter '*.ps1' | Where-Object {$_.name -NotMatch "Tests.ps1"}
 $Modules = Get-ChildItem "$here\" -Filter '*.psm1' -Recurse
 
 if ($Modules.count -gt 0) {
