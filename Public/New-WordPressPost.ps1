@@ -178,11 +178,11 @@ curl \
                 -Method Post -Headers @{"Authorization" = "Bearer $accessToken"} `
                 -Body @{title=$postTitle; content=$content; tags='tests'; categories='api'} `
                     -ContentType "application/x-www-form-urlencoded" -ErrorAction STOP }
-    catch{write-warning "Shit broke"}
+    catch{Write-Warning "Something isn't Right here"}
     $result
     if (($result.status)-eq 'publish'){Write-Output "Post Successful!"}
 
-    if ($view){start $result.short_URL}
+    if ($view){Start-Process $result.short_URL}
     Write-Debug "Test result"
         
 }
