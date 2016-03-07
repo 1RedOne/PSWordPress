@@ -1,4 +1,5 @@
-﻿<#
+﻿Function New-WordPressPost {
+<#
 .Synopsis
    Use this cmdlet to retrieve up-to-the-minute statistics from your Wordpress site
 .DESCRIPTION
@@ -35,7 +36,6 @@ You can also pipe the output of Get-WordPressSite into this cmdlet, rather than 
 Code for this module can always be found here on GitHub
 https://github.com/1RedOne/WordPress
 #>
-Function New-WordPressPost {
 [Cmdletbinding()]
 param(
     [Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true,
@@ -178,11 +178,11 @@ curl \
                 -Method Post -Headers @{"Authorization" = "Bearer $accessToken"} `
                 -Body @{title=$postTitle; content=$content; tags='tests'; categories='api'} `
                     -ContentType "application/x-www-form-urlencoded" -ErrorAction STOP }
-    catch{write-warning "Shit broke"}
+    catch{Write-Warning "Something isn't Right here"}
     $result
     if (($result.status)-eq 'publish'){Write-Output "Post Successful!"}
 
-    if ($view){start $result.short_URL}
+    if ($view){Start-Process $result.short_URL}
     Write-Debug "Test result"
         
 }

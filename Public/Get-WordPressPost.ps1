@@ -1,4 +1,5 @@
-﻿<#
+﻿Function Get-WordPressPost {
+<#
 .Synopsis
    Returns a list of all Posts, useful to send to other cmdlets
 .DESCRIPTION
@@ -17,16 +18,19 @@ Found 135 posts
 Get basic information about the posts on your site, including comment activity
 .EXAMPLE
    Another example of how to use this cmdlet
-#>
-Function Get-WordPressPost {
-[CmdletBinding()]
-param([Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true,
-                   Position=0)]$domainName,
-                   $accessToken=$Global:accessToken)
+#>[CmdletBinding()]
+param(
+[Parameter(Mandatory=$true,
+           ValueFromPipelineByPropertyName=$true,
+           Position=0)]
+           $domainName,
+           [int]$NumberToReturn=20,
+           $accessToken=$Global:accessToken)
 
 
-$results = Invoke-RestMethod https://public-api.wordpress.com/rest/v1.1/sites/$domainName/posts -Method Get -Headers @{"Authorization" = "Bearer $accessToken"} 
+$results = Invoke-RestMethod https://public-api.wordpress.com/rest/v1.1/sites/$domainName/posts/?number=$NumberToReturn -Method Get -Headers @{"Authorization" = "Bearer $accessToken"} 
 Write-output "Found $($results.found) posts"
-$results.posts | select ID,@{n='Author';Exp={$_.author.Name}},date,@{n='title';Exp={$_.title[0..25] -join ''}},status,short_URL,@{n='Activity(Comments)';Exp={$_.Discussion.Comment_Count}}
+$results.posts | 
+Select-Object ID,@{n='Author';Exp={$_.author.Name}},date,@{n='title';Exp={[System.Web.HttpUtility]::HtmlDecode($_.title) -join ''}},status,URL,short_URL,@{n='Activity(Comments)';Exp={$_.Discussion.Comment_Count}}
 
 }

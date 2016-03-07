@@ -1,4 +1,5 @@
-﻿<#
+﻿Function Connect-WordPressAccount {
+<#
 .Synopsis
     Use this cmdlet to connect to a WordPress account for management via PowerShell
 .DESCRIPTION
@@ -16,7 +17,6 @@
 
     If you need to renew your API key (roughly once a month), then rerun the cmdlet with -Force
 #>
-Function Connect-WordPressAccount {
 [CmdletBinding()]
 param($ClientID,$blogURL,$clientSecret,[Switch]$force)
 

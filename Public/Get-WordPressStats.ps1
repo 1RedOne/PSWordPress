@@ -1,3 +1,4 @@
+Function Get-WordPressStats {
 <#
 .Synopsis
    Use this cmdlet to retrieve up-to-the-minute statistics from your Wordpress site
@@ -33,15 +34,18 @@ You can also pipe the output of Get-WordPressSite into this cmdlet, rather than 
 Code for this module can always be found here on GitHub
 https://github.com/1RedOne/WordPress
 #>
-Function Get-WordPressStats {
 [Cmdletbinding()]
 param(
     [Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true,
                    Position=0)]
                    [Alias("domainName")] $ID,
+                   [Switch]$FullStats,
                    $accessToken=$Global:accessToken)
 
 
-Invoke-RestMethod https://public-api.wordpress.com/rest/v1.1/sites/$ID/stats -Method Get -Headers @{"Authorization" = "Bearer $accessToken"}  | Select-object -ExpandProperty Stats |Select-Object Views*,Visit*
+$Stats = Invoke-RestMethod https://public-api.wordpress.com/rest/v1.1/sites/$ID/stats -Method Get -Headers @{"Authorization" = "Bearer $accessToken"}  | 
+Select-object -ExpandProperty Stats 
+if (!$FullStats) { $stats = $stats | Select-Object Views*,Visit*}
+return $Stats
 
 }

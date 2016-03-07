@@ -12,7 +12,7 @@
 RootModule = 'PSWordPress.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.0.1'
+ModuleVersion = '0.0.2'
 
 # ID used to uniquely identify this module
 GUID = '2cc850b4-4052-4766-941c-49d6c042051b'
@@ -66,16 +66,16 @@ PowerShellVersion = '3.0'
 # NestedModules = @()
 
 # Functions to export from this module
-FunctionsToExport = '*'
+FunctionsToExport = @('Connect-WordPressAccount','Get-WordPressAccount','Get-WordPressPost','Get-WordPressSite','Get-WordPressStats','New-WordPressPost','Test-WordPressToken')
 
 # Cmdlets to export from this module
-CmdletsToExport = '*'
+#CmdletsToExport = '*'
 
 # Variables to export from this module
-VariablesToExport = '*'
+#VariablesToExport = '*'
 
 # Aliases to export from this module
-AliasesToExport = '*'
+#AliasesToExport = '*'
 
 # DSC resources to export from this module
 # DscResourcesToExport = @()
@@ -92,19 +92,19 @@ PrivateData = @{
     PSData = @{
 
         # Tags applied to this module. These help with module discovery in online galleries.
-        # Tags = @()
+        Tags = @('WordPress','REST','API')
 
         # A URL to the license for this module.
-        # LicenseUri = ''
+        LicenseUri = 'https://github.com/1RedOne/PSWordPress/License'
 
         # A URL to the main website for this project.
-        # ProjectUri = ''
+        ProjectUri = 'https://github.com/1RedOne/PSWordPress/'
 
         # A URL to an icon representing this module.
         # IconUri = ''
 
         # ReleaseNotes of this module
-        # ReleaseNotes = ''
+        ReleaseNotes = 'Lots of updates to make more complaint with PowerShell Gallery Uploads'
 
     } # End of PSData hashtable
 

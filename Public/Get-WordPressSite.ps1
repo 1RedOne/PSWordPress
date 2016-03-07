@@ -1,4 +1,5 @@
-﻿<#
+﻿Function Get-WordPressSite {
+<#
 .Synopsis
    Short description
 .DESCRIPTION
@@ -19,7 +20,6 @@ DomainName        : FoxDeploy.com
 
 Get basic information about a certain site, useful for piping into another cmdlet
 #>
-Function Get-WordPressSite {
 [CmdletBinding()]
 param([Parameter(ValueFromPipelineByPropertyName=$true,
                    Position=0)]$domainName,
@@ -34,7 +34,7 @@ param([Parameter(ValueFromPipelineByPropertyName=$true,
 
     if ($domainName){
             try {$sites = Invoke-RestMethod https://public-api.wordpress.com/rest/v1.1/sites/$domainName -Method Get -Headers @{"Authorization" = "Bearer $accessToken"} -ErrorAction Stop | 
-                select ID,name,Description,URL,post_count,subscribers_count,@{Name='DomainName';Exp={$domainName}} -ExcludeProperty options }
+                Select-Object ID,name,Description,URL,post_count,subscribers_count,@{Name='DomainName';Exp={$domainName}} -ExcludeProperty options }
           catch {Write-Warning "Auth Token issue`n`tDid you grant permission to all of your sites?`n`tMake sure that Scope=Global is specified in your token request URL`n`tTry to refresh your token with Connect-WordPressAccount -Force"}
         }
     else{
