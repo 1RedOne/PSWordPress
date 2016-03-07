@@ -39,9 +39,13 @@ param(
     [Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true,
                    Position=0)]
                    [Alias("domainName")] $ID,
+                   [Switch]$FullStats,
                    $accessToken=$Global:accessToken)
 
 
-Invoke-RestMethod https://public-api.wordpress.com/rest/v1.1/sites/$ID/stats -Method Get -Headers @{"Authorization" = "Bearer $accessToken"}  | Select-object -ExpandProperty Stats |Select-Object Views*,Visit*
+$Stats = Invoke-RestMethod https://public-api.wordpress.com/rest/v1.1/sites/$ID/stats -Method Get -Headers @{"Authorization" = "Bearer $accessToken"}  | 
+Select-object -ExpandProperty Stats 
+if (!$FullStats) { $stats = $stats | Select-Object Views*,Visit*}
+return $Stats
 
 }
