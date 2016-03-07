@@ -1,4 +1,5 @@
-﻿<#
+﻿Function New-WordPressPost {
+<#
 .Synopsis
    Use this cmdlet to retrieve up-to-the-minute statistics from your Wordpress site
 .DESCRIPTION
@@ -35,7 +36,6 @@ You can also pipe the output of Get-WordPressSite into this cmdlet, rather than 
 Code for this module can always be found here on GitHub
 https://github.com/1RedOne/WordPress
 #>
-Function New-WordPressPost {
 [Cmdletbinding()]
 param(
     [Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true,
