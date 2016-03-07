@@ -1,4 +1,5 @@
-﻿<#
+﻿Function Get-WordPressAccount {
+<#
 .Synopsis
     Use this cmdlet to retrive details on your WordPress account for management via PowerShell
 .DESCRIPTION
@@ -12,7 +13,6 @@
 
     This will retrive the Standard properties for your WordPress Account
 #>
-Function Get-WordPressAccount {
 [Cmdletbinding()]
 param($accessToken=$Global:accessToken,[switch]$Insights)
 
