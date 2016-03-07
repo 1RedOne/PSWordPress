@@ -1,4 +1,5 @@
-﻿<#
+﻿Function Get-WordPressSite {
+<#
 .Synopsis
    Short description
 .DESCRIPTION
@@ -19,7 +20,6 @@ DomainName        : FoxDeploy.com
 
 Get basic information about a certain site, useful for piping into another cmdlet
 #>
-Function Get-WordPressSite {
 [CmdletBinding()]
 param([Parameter(ValueFromPipelineByPropertyName=$true,
                    Position=0)]$domainName,
