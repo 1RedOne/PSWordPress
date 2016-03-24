@@ -18,7 +18,8 @@ Found 135 posts
 Get basic information about the posts on your site, including comment activity
 .EXAMPLE
    Another example of how to use this cmdlet
-#>[CmdletBinding()]
+#>
+[CmdletBinding()]
 param(
 [Parameter(Mandatory=$true,
            ValueFromPipelineByPropertyName=$true,
