@@ -32,6 +32,11 @@ param(
 $results = Invoke-RestMethod https://public-api.wordpress.com/rest/v1.1/sites/$domainName/posts/?number=$NumberToReturn -Method Get -Headers @{"Authorization" = "Bearer $accessToken"} 
 
 $results.posts | 
-Select-Object ID,@{n='Author';Exp={$_.author.Name}},date,@{n='title';Exp={[System.Web.HttpUtility]::HtmlDecode($_.title) -join ''}},status,URL,short_URL,@{n='Activity(Comments)';Exp={$_.Discussion.Comment_Count}}
+Select-Object ID,
+@{Name='Author';Expression={$_.author.Name}},
+@{Name='Date';Expression={[Datetime]::Parse($($_.date))}},
+@{Name='Title';Expression={[System.Web.HttpUtility]::HtmlDecode($_.title) -join ''}},
+status,URL,short_URL,
+@{Name='Activity(Comments)';Expression={$_.Discussion.Comment_Count}}
 
 }
