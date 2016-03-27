@@ -18,7 +18,8 @@ Found 135 posts
 Get basic information about the posts on your site, including comment activity
 .EXAMPLE
    Another example of how to use this cmdlet
-#>[CmdletBinding()]
+#>
+[CmdletBinding()]
 param(
 [Parameter(Mandatory=$true,
            ValueFromPipelineByPropertyName=$true,
@@ -29,8 +30,13 @@ param(
 
 
 $results = Invoke-RestMethod https://public-api.wordpress.com/rest/v1.1/sites/$domainName/posts/?number=$NumberToReturn -Method Get -Headers @{"Authorization" = "Bearer $accessToken"} 
-Write-output "Found $($results.found) posts"
+
 $results.posts | 
-Select-Object ID,@{n='Author';Exp={$_.author.Name}},date,@{n='title';Exp={[System.Web.HttpUtility]::HtmlDecode($_.title) -join ''}},status,URL,short_URL,@{n='Activity(Comments)';Exp={$_.Discussion.Comment_Count}}
+Select-Object ID,
+@{Name='Author';Expression={$_.author.Name}},
+@{Name='Date';Expression={[Datetime]::Parse($($_.date))}},
+@{Name='Title';Expression={[System.Web.HttpUtility]::HtmlDecode($_.title) -join ''}},
+status,URL,short_URL,
+@{Name='Activity(Comments)';Expression={$_.Discussion.Comment_Count}}
 
 }
