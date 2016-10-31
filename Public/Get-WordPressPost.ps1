@@ -35,8 +35,8 @@ $results.posts |
 Select-Object ID,
 @{Name='Author';Expression={$_.author.Name}},
 @{Name='Date';Expression={[Datetime]::Parse($($_.date))}},
-@{Name='Title';Expression={[System.Web.HttpUtility]::HtmlDecode($_.title) -join ''}},
-status,URL,short_URL,
-@{Name='Activity(Comments)';Expression={$_.Discussion.Comment_Count}}
+@{Name='Title';Expression={[System.Web.HttpUtility]::HTMLDecode([System.Web.HttpUtility]::URLDecode($_.title))}},
+status,URL,short_URL,guid,
+@{Name='Comments';Expression={$_.Discussion.Comment_Count}}
 
 }
