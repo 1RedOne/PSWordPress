@@ -34,7 +34,7 @@ Import-Module PSWordPress
 ```PowerShell
 Connect-WordPressAccount -ClientID [your app id] -BlogUrl [the redirect URL you specified]
    -ClientSecret [the secret you received when you made your project]
->Returns $Global:AccessToken, automatically passed to all subsequnet cmdlets
+>Returns $Global:AccessToken, automatically passed to all subsequent cmdlets
 ```
 * The accessToken is safely stored using Windows API storage, in the users own roaming app data.  Subsequent cmdlets are aware of this storage location and will retrieve the key for you.
 * You can test your Credential using Test-WordPressToken
